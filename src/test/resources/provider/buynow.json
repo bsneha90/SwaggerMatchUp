@@ -1,0 +1,4544 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "v1",
+        "title": "FastTrack.Services"
+    },
+    "host": "c43-fasttrackapi.ttlnonprod.com",
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/v1/Booking": {
+            "post": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Initiates Booking process for given booking request.",
+                "operationId": "Booking_Post",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "bookingRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.BookingRequest"
+                        }
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Booking.BookingResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/diagnostics/healthcheck": {
+            "get": {
+                "tags": [
+                    "HealthCheck"
+                ],
+                "summary": "Returns service-name, app-name and app version.",
+                "operationId": "HealthCheck_Get",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/logout": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Initiates logout.",
+                "operationId": "Login_Logout",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "ssoValidationRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Login.SsoValidationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/v1/Login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Initiates SSO login and returns token",
+                "operationId": "Login_Post",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "loginRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Login.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Login.LoggedInCustomer"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/mobile/tickets": {
+            "get": {
+                "tags": [
+                    "MobileTicket"
+                ],
+                "summary": "Returns tickets for given transaction id.",
+                "operationId": "MobileTicket_GetByTransactionIds",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "transactionIds",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.RestApiResponse[FastTrackApi.Contracts.MobileTickets.TicketsResponse]"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/mobile/devices/{deviceId}/ticketbarcodesbytransactions": {
+            "get": {
+                "tags": [
+                    "MobileTicket"
+                ],
+                "summary": "Fetches barcoded-tickets by transactionIds.",
+                "operationId": "MobileTicket_GetTicketBarcodesByTransactions",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "transactionIds",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.RestApiResponse[FastTrackApi.Contracts.MobileTickets.TicketBarcodesResponse]"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/mobile/devices/{deviceId}/ticketbarcodesbytickets": {
+            "get": {
+                "tags": [
+                    "MobileTicket"
+                ],
+                "summary": "Fetches barcoded-tickets by ticket ids.",
+                "operationId": "MobileTicket_GetTicketBarcodesByTickets",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ticketIds",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.RestApiResponse[FastTrackApi.Contracts.MobileTickets.TicketBarcodesResponse]"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/mobile/devices/{deviceId}/tickets/barcode": {
+            "post": {
+                "tags": [
+                    "MobileTicket"
+                ],
+                "summary": "Fetches barcoded-tickets by transactionIds.",
+                "operationId": "MobileTicket_GetBarcodedTicketOnDeviceByTransactionIds",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "transactionIds",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.RestApiResponse[FastTrackApi.Contracts.MobileTickets.TicketBarcodesResponse]"
+                        }
+                    }
+                },
+                "deprecated": true
+            }
+        },
+        "/v1/mobile/devices/{deviceId}/tickets/activate": {
+            "post": {
+                "tags": [
+                    "MobileTicket"
+                ],
+                "summary": "Activates ticket by ticketIds.",
+                "operationId": "MobileTicket_ActivateTicketOnDeviceByTicketIds",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ticketStatusModificationRequests",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/FastTrackApi.Contracts.Requests.MobileTickets.TicketStatusModificationRequest"
+                            }
+                        }
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.RestApiResponse[FastTrackApi.Contracts.MobileTickets.EmptyTicketResponse]"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/mobile/devices/{deviceId}/tickets/delete": {
+            "post": {
+                "tags": [
+                    "MobileTicket"
+                ],
+                "summary": "Delete ticket on device by ticketIds.",
+                "operationId": "MobileTicket_ObsoleteDeleteTicketOnDeviceByTicketIds",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ticketStatusModificationRequests",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/FastTrackApi.Contracts.Requests.MobileTickets.TicketStatusModificationRequest"
+                            }
+                        }
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.RestApiResponse[FastTrackApi.Contracts.MobileTickets.EmptyTicketResponse]"
+                        }
+                    }
+                },
+                "deprecated": true
+            },
+            "delete": {
+                "tags": [
+                    "MobileTicket"
+                ],
+                "summary": "Delete ticket on device by ticketIds.",
+                "operationId": "MobileTicket_DeleteTicketOnDeviceByTicketIds",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ticketStatusModificationRequests",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/FastTrackApi.Contracts.Requests.MobileTickets.TicketStatusModificationRequest"
+                            }
+                        }
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.RestApiResponse[FastTrackApi.Contracts.MobileTickets.EmptyTicketResponse]"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/PayPalToken": {
+            "get": {
+                "tags": [
+                    "PayPalToken"
+                ],
+                "operationId": "PayPalToken_Get",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.PayPal.PayPalTokenResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/PostCodeLookUp": {
+            "get": {
+                "tags": [
+                    "PostCodeLookUp"
+                ],
+                "summary": "Returns the address for provided postcode.",
+                "operationId": "PostCodeLookUp_Get",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "postcode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.PostCodeLookUp.PostcodeLookUpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/promotion/{promotionCode}": {
+            "get": {
+                "tags": [
+                    "Promotion"
+                ],
+                "summary": "Returns promotion info based on provided promotion code",
+                "operationId": "Promotion_Get",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "promotionCode",
+                        "in": "path",
+                        "description": "Promotion code",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Promotions.PromoInfoResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "NotFound"
+                    }
+                }
+            }
+        },
+        "/v1/RealTime": {
+            "get": {
+                "tags": [
+                    "RealTime"
+                ],
+                "summary": "Returns realtime data against list of journeys legs with [train Id, Date, Origin,Destination]",
+                "operationId": "RealTime_Get",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.CallingPatternResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/referenceData/stations": {
+            "get": {
+                "tags": [
+                    "ReferenceData"
+                ],
+                "summary": "Fetches a list of all Stations.",
+                "operationId": "ReferenceData_GetStationList",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ReferenceData.Station"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/referenceData/smartStations": {
+            "get": {
+                "tags": [
+                    "ReferenceData"
+                ],
+                "summary": "Gets smart fulfillment stations and valid operators list for a TOC",
+                "operationId": "ReferenceData_GetSmartStationsWithOperators",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ReferenceData.SmartStationsResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/referenceData/countries": {
+            "get": {
+                "tags": [
+                    "ReferenceData"
+                ],
+                "summary": "Fetches a list of all countries.",
+                "operationId": "ReferenceData_GetCountryList",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ReferenceData.Country"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/referenceData/hash": {
+            "get": {
+                "tags": [
+                    "ReferenceData"
+                ],
+                "summary": "Fetches Reference Data hash (combined list of stations and countries).",
+                "operationId": "ReferenceData_GetReferenceDataHash",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ReferenceData.ReferenceDataHash"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/Registration": {
+            "post": {
+                "tags": [
+                    "Registration"
+                ],
+                "summary": "Registers given customer and returns the logged in customer, if registeration is successfull.",
+                "operationId": "Registration_Post",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "customerRegistrationRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Registration.CustomerRegistrationRequest"
+                        }
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Login.LoggedInCustomer"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/SavedPaymentCards": {
+            "get": {
+                "tags": [
+                    "SavedPaymentCards"
+                ],
+                "summary": "Provides a list of available saved payments cards based on SSO token",
+                "operationId": "SavedPaymentCards_Get",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Payments.SavedPaymentCardsResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/Search": {
+            "get": {
+                "tags": [
+                    "Search"
+                ],
+                "summary": "Performs Search Based on provided criteria and returns JourneyPlan",
+                "operationId": "Search_Get",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "journeyRequest.origin",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyRequest.destination",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyRequest.outboundDate",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyRequest.outboundTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyRequest.numberOfAdults",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32",
+                        "maximum": 9,
+                        "minimum": 0
+                    },
+                    {
+                        "name": "journeyRequest.numberOfChildren",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32",
+                        "maximum": 9,
+                        "minimum": 0
+                    },
+                    {
+                        "name": "journeyRequest.returnDate",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyRequest.returnTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyRequest.isReturn",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "journeyRequest.railcards",
+                        "in": "query",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "maxLength": 5,
+                        "minLength": 0
+                    },
+                    {
+                        "name": "journeyRequest.outboundSearchType",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyRequest.returnSearchType",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyRequest.promotionCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyRequest.promotionPin",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.JourneyPlan"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/SeasonsDeliveryOptions": {
+            "post": {
+                "tags": [
+                    "SeasonsDeliveryOptions"
+                ],
+                "summary": "Returns Seasons delivery options availbale for a journey based on the request and toc identifier.",
+                "operationId": "SeasonsDeliveryOptions_Post",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "deliveryOptionsRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Seasons.DeliveryOptionsRequest"
+                        }
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.DeliveryOptionsResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/SeasonsSearch": {
+            "get": {
+                "tags": [
+                    "SeasonsSearch"
+                ],
+                "summary": "Returns Seasons search results based on the journey request and the toc identifier.",
+                "operationId": "SeasonsSearch_Get",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.JourneyResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/customer/smartcards": {
+            "get": {
+                "tags": [
+                    "SmartCard"
+                ],
+                "summary": "Get smart cards for logged in customer against his token and TocId headers",
+                "operationId": "SmartCard_GetSmartCardsForCustomer",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.SmartCard.SmartCardResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "SmartCard"
+                ],
+                "summary": "Registers Smartcard",
+                "operationId": "SmartCard_Post",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "smartCardRegistrationRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.SmartCards.SmartCardRegistrationRequest"
+                        }
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.SmartCard.SmartCardRegistrationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/customer/smartcards/{smartcardId}/setdefault": {
+            "post": {
+                "tags": [
+                    "SmartCard"
+                ],
+                "summary": "Sets Smartcard to be default",
+                "operationId": "SmartCard_Post",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "smartcardId",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.SmartCard.SmartCardRegistrationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/TicketType": {
+            "get": {
+                "tags": [
+                    "TicketType"
+                ],
+                "summary": "Returns ticket type details for a given ticket-type.",
+                "operationId": "TicketType_Get",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "ticketTypeRequest.type",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.TicketType.TicketTypeResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/customers/{customerId}/transactionHistory": {
+            "get": {
+                "tags": [
+                    "TransactionHistory"
+                ],
+                "summary": "Fetches transaction history for a given customer for the requested time period.",
+                "operationId": "TransactionHistory_GetTransactionHistory",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.TransactionHistory.TransactionHistoryResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/customers/{customerId}/transaction/{transactionReference}": {
+            "get": {
+                "tags": [
+                    "TransactionHistory"
+                ],
+                "summary": "Fetches corresponding transaction for a given customer and transaction reference.",
+                "operationId": "TransactionHistory_GetTransaction",
+                "consumes": [
+
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "transactionReference",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    },
+                    {
+                        "name": "X-TTL-Customer-Authorization",
+                        "in": "header",
+                        "description": "SSO user token header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": "Bearer "
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.TransactionHistory.TransactionHistoryResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/ValidateToken": {
+            "post": {
+                "tags": [
+                    "ValidateToken"
+                ],
+                "summary": "Checks the validity of provided SSO token and if valid, returns the logged in customer.",
+                "operationId": "ValidateToken_Post",
+                "consumes": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json",
+                    "text/json",
+                    "application/xml",
+                    "text/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "ssoValidationRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Login.SsoValidationRequest"
+                        }
+                    },
+                    {
+                        "name": "TocIdentifier",
+                        "in": "header",
+                        "description": "TOC identifier header parameter",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Login.LoggedInCustomer"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "FastTrackApi.Contracts.Requests.Booking.BookingRequest": {
+            "type": "object",
+            "properties": {
+                "JourneyRequest": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Search.JourneyRequest"
+                },
+                "SelectedOutboundJourney": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.SelectedJourney"
+                },
+                "SelectedInboundJourney": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.SelectedJourney"
+                },
+                "SelectedOutboundTicket": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.SelectedTicket"
+                },
+                "SelectedInboundTicket": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.SelectedTicket"
+                },
+                "Customer": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.Customer"
+                },
+                "DeliveryOption": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.DeliveryOption"
+                },
+                "DeviceFingerPrintId": {
+                    "type": "string"
+                },
+                "LoyaltyCardInfo": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.LoyaltyCardInfo"
+                },
+                "ReservationRequest": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.ReservationRequest"
+                },
+                "PaymentMethod": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.Payments.PaymentMethodBase"
+                },
+                "HasReturnJourney": {
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "PaymentCardInfo": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.Payments.Obsolete.ObsoletePaymentCardDetails"
+                },
+                "PayPalInfo": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.Payments.Obsolete.ObsoletePayPalPayment"
+                },
+                "SavedPaymentCardInfo": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.Payments.Obsolete.SavedPaymentCardInfo"
+                },
+                "PaymentType": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "JourneyRequest": {
+                    "Origin": "EUS",
+                    "Destination": "MAN",
+                    "OutboundDate": "2017-07-27",
+                    "OutboundTime": "12-20",
+                    "NumberOfAdults": 2,
+                    "NumberOfChildren": 0,
+                    "IsReturn": false,
+                    "PromotionCode": "",
+                    "PromotionPin": ""
+                },
+                "SelectedOutboundJourney": {
+                    "DepartureDateTime": "2017-07-27T12:20:00",
+                    "ArrivalDateTime": "2017-07-27T14:28:00",
+                    "Legs": [
+                        {
+                            "OperatorCompany": "Virgin Trains",
+                            "Mode": "Train",
+                            "FromName": "London Euston",
+                            "ToName": "Manchester Piccadilly",
+                            "Duration": "2hr 8mins",
+                            "DestinationArrivalTime": "14:28",
+                            "OriginDepartureTime": "12:20",
+                            "TrainId": "P51666"
+                        }
+                    ]
+                },
+                "SelectedOutboundTicket": {
+                    "TotalFare": 16580,
+                    "Type": "SVS",
+                    "RteRestrict": "00000",
+                    "FareSrc": "O"
+                },
+                "Customer": {
+                    "ForeName": "John",
+                    "SurName": "Snow",
+                    "EmailAddress": "JOHN.SNOW@THETRAINLINE.COM",
+                    "Address": {
+                        "Line1": "TRAINLINE.COM",
+                        "Line2": "50,FARRINGDON ROAD",
+                        "Line3": "London",
+                        "Postcode": "SW1A 2AA",
+                        "Country": "Z0"
+                    }
+                },
+                "DeliveryOption": {
+                    "DeliveryOptionType": "Kiosk"
+                },
+                "DeviceFingerPrintId": "431687b58c6c44ac8b1c0daa354e36961498471653000",
+                "PaymentMethod": {
+                    "PaymentCardDetails": {
+                        "CardType": "VISA",
+                        "CardNum": "4242424242424242",
+                        "ExpiryMonth": "11",
+                        "ExpiryYear": "22",
+                        "CV2": "111",
+                        "CardholderName": "John Watson"
+                    },
+                    "BillingAddress": {
+                        "Line1": "TRAINLINE.COM",
+                        "Line2": "50,FARRINGDON ROAD",
+                        "Line3": "London",
+                        "Line4": "",
+                        "Line5": "",
+                        "Postcode": "SW1A 2AA",
+                        "Country": "Z0"
+                    }
+                },
+                "HasReturnJourney": false
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Search.JourneyRequest": {
+            "required": [
+                "Origin",
+                "Destination"
+            ],
+            "type": "object",
+            "properties": {
+                "Origin": {
+                    "type": "string"
+                },
+                "Destination": {
+                    "type": "string"
+                },
+                "OutboundDate": {
+                    "type": "string"
+                },
+                "OutboundTime": {
+                    "type": "string"
+                },
+                "NumberOfAdults": {
+                    "format": "int32",
+                    "maximum": 9,
+                    "minimum": 0,
+                    "type": "integer"
+                },
+                "NumberOfChildren": {
+                    "format": "int32",
+                    "maximum": 9,
+                    "minimum": 0,
+                    "type": "integer"
+                },
+                "ReturnDate": {
+                    "type": "string"
+                },
+                "ReturnTime": {
+                    "type": "string"
+                },
+                "IsReturn": {
+                    "type": "boolean"
+                },
+                "Railcards": {
+                    "maxLength": 5,
+                    "minLength": 0,
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "OutboundSearchType": {
+                    "type": "string"
+                },
+                "ReturnSearchType": {
+                    "type": "string"
+                },
+                "PromotionCode": {
+                    "type": "string"
+                },
+                "PromotionPin": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.SelectedJourney": {
+            "type": "object",
+            "properties": {
+                "DepartureDateTime": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "ArrivalDateTime": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "Legs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.CommonTypes.Leg"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.SelectedTicket": {
+            "type": "object",
+            "properties": {
+                "TotalFare": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "Type": {
+                    "type": "string"
+                },
+                "RteRestrict": {
+                    "type": "string"
+                },
+                "FareSrc": {
+                    "type": "string"
+                },
+                "Origin": {
+                    "type": "string"
+                },
+                "Destination": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Customer": {
+            "type": "object",
+            "properties": {
+                "ForeName": {
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "SurName": {
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "EmailAddress": {
+                    "maxLength": 100,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "Address": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.CommonTypes.Address"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.DeliveryOption": {
+            "type": "object",
+            "properties": {
+                "DeliveryOptionType": {
+                    "type": "string"
+                },
+                "SmartDeliveryInfo": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.SmartDeliveryInfo"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.LoyaltyCardInfo": {
+            "required": [
+                "CardType",
+                "CardNum"
+            ],
+            "type": "object",
+            "properties": {
+                "CardType": {
+                    "maxLength": 50,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "CardNum": {
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.ReservationRequest": {
+            "type": "object",
+            "properties": {
+                "SeatPreferences": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.PaymentMethodBase": {
+            "type": "object",
+            "properties": {
+
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.Obsolete.ObsoletePaymentCardDetails": {
+            "required": [
+                "CardType",
+                "CardNum",
+                "ExpiryMonth",
+                "ExpiryYear"
+            ],
+            "type": "object",
+            "properties": {
+                "CardType": {
+                    "maxLength": 50,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "CardNum": {
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "ExpiryMonth": {
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "type": "string"
+                },
+                "ExpiryYear": {
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "type": "string"
+                },
+                "CV2": {
+                    "maxLength": 4,
+                    "minLength": 3,
+                    "pattern": "[0-9]*",
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.Obsolete.ObsoletePayPalPayment": {
+            "type": "object",
+            "properties": {
+                "Nonce": {
+                    "type": "string"
+                },
+                "EmailId": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.Obsolete.SavedPaymentCardInfo": {
+            "type": "object",
+            "properties": {
+                "CardAlias": {
+                    "type": "string"
+                },
+                "CV2": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.CommonTypes.Leg": {
+            "type": "object",
+            "properties": {
+                "OperatorCompany": {
+                    "type": "string"
+                },
+                "Mode": {
+                    "type": "string"
+                },
+                "FromName": {
+                    "type": "string"
+                },
+                "ToName": {
+                    "type": "string"
+                },
+                "Duration": {
+                    "type": "string"
+                },
+                "DestinationArrivalTime": {
+                    "type": "string"
+                },
+                "OriginDepartureTime": {
+                    "type": "string"
+                },
+                "TrainId": {
+                    "type": "string"
+                },
+                "Seats": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ServiceProviderName": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.CommonTypes.Address": {
+            "required": [
+                "Line1",
+                "Postcode",
+                "Country"
+            ],
+            "type": "object",
+            "properties": {
+                "Line1": {
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "Line2": {
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "Line3": {
+                    "maxLength": 30,
+                    "minLength": 0,
+                    "type": "string"
+                },
+                "Line4": {
+                    "maxLength": 30,
+                    "minLength": 0,
+                    "type": "string"
+                },
+                "Line5": {
+                    "maxLength": 30,
+                    "minLength": 0,
+                    "type": "string"
+                },
+                "Postcode": {
+                    "maxLength": 10,
+                    "minLength": 3,
+                    "type": "string"
+                },
+                "Country": {
+                    "maxLength": 2,
+                    "minLength": 1,
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.SmartDeliveryInfo": {
+            "type": "object",
+            "properties": {
+                "SmartCardNumber": {
+                    "type": "string"
+                },
+                "FulfilmentLocation": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Booking.BookingResponse": {
+            "type": "object",
+            "properties": {
+                "HasErrors": {
+                    "type": "boolean"
+                },
+                "ErrorMessage": {
+                    "type": "string"
+                },
+                "ErrorCode": {
+                    "type": "string"
+                },
+                "TransactionId": {
+                    "type": "string"
+                },
+                "ReferenceNumber": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Login.SsoValidationRequest": {
+            "type": "object",
+            "properties": {
+                "TokenField": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.CommonTypes.TokenField"
+                },
+                "ConsumerId": {
+                    "format": "int32",
+                    "type": "integer"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.CommonTypes.TokenField": {
+            "type": "object",
+            "properties": {
+                "Token": {
+                    "type": "string"
+                },
+                "TokenExpiryTime": {
+                    "format": "date-time",
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Login.LoginRequest": {
+            "type": "object",
+            "properties": {
+                "UserName": {
+                    "type": "string"
+                },
+                "Password": {
+                    "type": "string"
+                },
+                "ManagedGroupId": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Login.LoggedInCustomer": {
+            "type": "object",
+            "properties": {
+                "DeviceFingerPrint": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Login.DeviceFingerPrint"
+                },
+                "Customer": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Login.Customer"
+                },
+                "IsLoggedIn": {
+                    "type": "boolean"
+                },
+                "DeviceFingerPrintData": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Login.DeviceFingerPrintData"
+                },
+                "HasErrors": {
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "WsgErrors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ErrorResponse"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Login.DeviceFingerPrint": {
+            "type": "object",
+            "properties": {
+
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Login.Customer": {
+            "type": "object",
+            "properties": {
+                "ForeName": {
+                    "type": "string"
+                },
+                "SurName": {
+                    "type": "string"
+                },
+                "CustomerId": {
+                    "type": "string"
+                },
+                "EmailAddress": {
+                    "type": "string"
+                },
+                "Token": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.CommonTypes.TokenField"
+                },
+                "Address": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.CommonTypes.Address"
+                },
+                "HasErrors": {
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "WsgErrors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ErrorResponse"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Login.DeviceFingerPrintData": {
+            "type": "object",
+            "properties": {
+                "Hostname": {
+                    "type": "string"
+                },
+                "OriginId": {
+                    "type": "string"
+                },
+                "MerchantId": {
+                    "type": "string"
+                },
+                "TransactionId": {
+                    "type": "string"
+                },
+                "TransactionDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "ErrorCode": {
+                    "type": "string"
+                },
+                "ErrorDescription": {
+                    "type": "string"
+                },
+                "AdditionalInfo": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.RestApiResponse[FastTrackApi.Contracts.MobileTickets.TicketsResponse]": {
+            "type": "object",
+            "properties": {
+                "StatusCode": {
+                    "format": "int32",
+                    "enum": [
+                        100,
+                        101,
+                        200,
+                        201,
+                        202,
+                        203,
+                        204,
+                        205,
+                        206,
+                        300,
+                        301,
+                        302,
+                        303,
+                        304,
+                        305,
+                        306,
+                        307,
+                        400,
+                        401,
+                        402,
+                        403,
+                        404,
+                        405,
+                        406,
+                        407,
+                        408,
+                        409,
+                        410,
+                        411,
+                        412,
+                        413,
+                        414,
+                        415,
+                        416,
+                        417,
+                        426,
+                        500,
+                        501,
+                        502,
+                        503,
+                        504,
+                        505
+                    ],
+                    "type": "integer"
+                },
+                "Result": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.TicketsResponse"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.TicketsResponse": {
+            "type": "object",
+            "properties": {
+                "Tickets": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.Ticket"
+                    }
+                },
+                "Errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.Error"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.Ticket": {
+            "type": "object",
+            "properties": {
+                "Id": {
+                    "type": "string"
+                },
+                "TransactionId": {
+                    "type": "string"
+                },
+                "BookingId": {
+                    "type": "string"
+                },
+                "BookedDateTime": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "Passenger": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.TicketPassengerDetails"
+                },
+                "NrsCode": {
+                    "type": "string"
+                },
+                "FareOrigin": {
+                    "type": "string"
+                },
+                "FareDestination": {
+                    "type": "string"
+                },
+                "TicketNumber": {
+                    "type": "string"
+                },
+                "SequenceNumber": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "Price": {
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "Railcard": {
+                    "type": "string"
+                },
+                "Retailer": {
+                    "type": "string"
+                },
+                "Routing": {
+                    "type": "string"
+                },
+                "SecurityKeyword": {
+                    "type": "string"
+                },
+                "TicketType": {
+                    "type": "string"
+                },
+                "TravelClass": {
+                    "type": "string"
+                },
+                "ValidFromDate": {
+                    "type": "string"
+                },
+                "AdvancePurchaseIndicator": {
+                    "type": "string"
+                },
+                "DirectionOfTravel": {
+                    "type": "string"
+                },
+                "JourneyPart": {
+                    "type": "string"
+                },
+                "ArrivalDateTime": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "DepartureDateTime": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "ValidUntilDate": {
+                    "type": "string"
+                },
+                "Legs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.Leg"
+                    }
+                },
+                "Status": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.TicketStatus"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.Error": {
+            "type": "object",
+            "properties": {
+                "TransactionId": {
+                    "type": "string"
+                },
+                "TicketId": {
+                    "type": "string"
+                },
+                "Code": {
+                    "type": "string"
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "Status": {
+                    "format": "int32",
+                    "enum": [
+                        100,
+                        101,
+                        200,
+                        201,
+                        202,
+                        203,
+                        204,
+                        205,
+                        206,
+                        300,
+                        301,
+                        302,
+                        303,
+                        304,
+                        305,
+                        306,
+                        307,
+                        400,
+                        401,
+                        402,
+                        403,
+                        404,
+                        405,
+                        406,
+                        407,
+                        408,
+                        409,
+                        410,
+                        411,
+                        412,
+                        413,
+                        414,
+                        415,
+                        416,
+                        417,
+                        426,
+                        500,
+                        501,
+                        502,
+                        503,
+                        504,
+                        505
+                    ],
+                    "type": "integer"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.TicketPassengerDetails": {
+            "type": "object",
+            "properties": {
+                "IdLastDigits": {
+                    "type": "string"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Type": {
+                    "type": "string"
+                },
+                "IdTypeCode": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.Leg": {
+            "type": "object",
+            "properties": {
+                "Order": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "DepartureDateTime": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "ArrivalDateTime": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "FromStation": {
+                    "type": "string"
+                },
+                "ToStation": {
+                    "type": "string"
+                },
+                "Operator": {
+                    "type": "string"
+                },
+                "Coach": {
+                    "type": "string"
+                },
+                "Seat": {
+                    "type": "string"
+                },
+                "Berth": {
+                    "type": "string"
+                },
+                "TrainNumber": {
+                    "type": "string"
+                },
+                "ReservationRequired": {
+                    "type": "boolean"
+                },
+                "ModeOfTransport": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.TicketStatus": {
+            "type": "object",
+            "properties": {
+                "IsAvailable": {
+                    "type": "boolean"
+                },
+                "Status": {
+                    "type": "string"
+                },
+                "UpdatedOn": {
+                    "format": "date-time",
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.RestApiResponse[FastTrackApi.Contracts.MobileTickets.TicketBarcodesResponse]": {
+            "type": "object",
+            "properties": {
+                "StatusCode": {
+                    "format": "int32",
+                    "enum": [
+                        100,
+                        101,
+                        200,
+                        201,
+                        202,
+                        203,
+                        204,
+                        205,
+                        206,
+                        300,
+                        301,
+                        302,
+                        303,
+                        304,
+                        305,
+                        306,
+                        307,
+                        400,
+                        401,
+                        402,
+                        403,
+                        404,
+                        405,
+                        406,
+                        407,
+                        408,
+                        409,
+                        410,
+                        411,
+                        412,
+                        413,
+                        414,
+                        415,
+                        416,
+                        417,
+                        426,
+                        500,
+                        501,
+                        502,
+                        503,
+                        504,
+                        505
+                    ],
+                    "type": "integer"
+                },
+                "Result": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.TicketBarcodesResponse"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.TicketBarcodesResponse": {
+            "type": "object",
+            "properties": {
+                "Tickets": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.TicketBarcode"
+                    }
+                },
+                "Errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.Error"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.TicketBarcode": {
+            "type": "object",
+            "properties": {
+                "TicketId": {
+                    "type": "string"
+                },
+                "Barcode": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.MobileTickets.TicketStatusModificationRequest": {
+            "type": "object",
+            "properties": {
+                "Id": {
+                    "type": "string"
+                },
+                "Status": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.MobileTickets.UpdateStatus"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.MobileTickets.UpdateStatus": {
+            "type": "object",
+            "properties": {
+                "UpdatedOn": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.RestApiResponse[FastTrackApi.Contracts.MobileTickets.EmptyTicketResponse]": {
+            "type": "object",
+            "properties": {
+                "StatusCode": {
+                    "format": "int32",
+                    "enum": [
+                        100,
+                        101,
+                        200,
+                        201,
+                        202,
+                        203,
+                        204,
+                        205,
+                        206,
+                        300,
+                        301,
+                        302,
+                        303,
+                        304,
+                        305,
+                        306,
+                        307,
+                        400,
+                        401,
+                        402,
+                        403,
+                        404,
+                        405,
+                        406,
+                        407,
+                        408,
+                        409,
+                        410,
+                        411,
+                        412,
+                        413,
+                        414,
+                        415,
+                        416,
+                        417,
+                        426,
+                        500,
+                        501,
+                        502,
+                        503,
+                        504,
+                        505
+                    ],
+                    "type": "integer"
+                },
+                "Result": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.EmptyTicketResponse"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.MobileTickets.EmptyTicketResponse": {
+            "type": "object",
+            "properties": {
+                "Errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.MobileTickets.Error"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.PayPal.PayPalTokenResponse": {
+            "type": "object",
+            "properties": {
+                "clientToken": {
+                    "type": "string"
+                },
+                "errorReport": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.PayPal.ErrorReport"
+                },
+                "HasErrors": {
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "WsgErrors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ErrorResponse"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.PayPal.ErrorReport": {
+            "type": "object",
+            "properties": {
+                "ResponseError": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ErrorResponse"
+                    }
+                },
+                "MsgNum": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "MsgNumSpecified": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.PostCodeLookUp.PostcodeLookUpResponse": {
+            "type": "object",
+            "properties": {
+                "Addresses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.CommonTypes.Address"
+                    }
+                },
+                "HasErrors": {
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "WsgErrors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ErrorResponse"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Promotions.PromoInfoResponse": {
+            "type": "object",
+            "properties": {
+                "Description": {
+                    "type": "string"
+                },
+                "PinRequired": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.CallingPatternResponse": {
+            "type": "object",
+            "properties": {
+                "RequestId": {
+                    "type": "string"
+                },
+                "IsRealTimeDataAvailable": {
+                    "type": "boolean"
+                },
+                "Service": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.TripService"
+                },
+                "Errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.ErrorMessage"
+                    }
+                },
+                "HasErrors": {
+                    "type": "boolean",
+                    "readOnly": true
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.TripService": {
+            "type": "object",
+            "properties": {
+                "ServiceUid": {
+                    "type": "string"
+                },
+                "ServiceOperator": {
+                    "type": "string"
+                },
+                "TransportMode": {
+                    "type": "string"
+                },
+                "ServiceOrigins": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ServiceDestinations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "IsReplacementBus": {
+                    "type": "boolean"
+                },
+                "Stops": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.TrainStop"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.ErrorMessage": {
+            "type": "object",
+            "properties": {
+                "Code": {
+                    "type": "string"
+                },
+                "Description": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.TrainStop": {
+            "type": "object",
+            "properties": {
+                "Location": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.SearchLocation"
+                },
+                "Arrival": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.TrainBoardInformation"
+                },
+                "Departure": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.TrainBoardInformation"
+                },
+                "CallingType": {
+                    "format": "int32",
+                    "enum": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "type": "integer"
+                },
+                "AssociatedServices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.AssociatedTripService"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.SearchLocation": {
+            "type": "object",
+            "properties": {
+                "Crs": {
+                    "type": "string"
+                },
+                "Nlc": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.TrainBoardInformation": {
+            "type": "object",
+            "properties": {
+                "NotApplicable": {
+                    "type": "boolean"
+                },
+                "Scheduled": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.ScheduledInfo"
+                },
+                "RealTime": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.RealTimeUpdate"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.AssociatedTripService": {
+            "type": "object",
+            "properties": {
+                "Type": {
+                    "format": "int32",
+                    "enum": [
+                        0,
+                        1,
+                        2
+                    ],
+                    "type": "integer"
+                },
+                "Service": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.TripService"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.ScheduledInfo": {
+            "type": "object",
+            "properties": {
+                "ScheduledTime": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "ScheduledPlatform": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.RealTimeUpdate": {
+            "type": "object",
+            "properties": {
+                "Cancelled": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.CancellationInfo"
+                },
+                "RealTimeServiceInfo": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.RealTimeServiceInfo"
+                },
+                "DelayReason": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.RealTime.DelayedInfo"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.CancellationInfo": {
+            "type": "object",
+            "properties": {
+                "IsCancelled": {
+                    "type": "boolean"
+                },
+                "Code": {
+                    "type": "string"
+                },
+                "ReasonText": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.RealTimeServiceInfo": {
+            "type": "object",
+            "properties": {
+                "HasArrived": {
+                    "type": "boolean"
+                },
+                "HasDeparted": {
+                    "type": "boolean"
+                },
+                "RealTime": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "RealTimePlatform": {
+                    "type": "string"
+                },
+                "RealTimeFlag": {
+                    "format": "int32",
+                    "enum": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    "type": "integer"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.RealTime.DelayedInfo": {
+            "type": "object",
+            "properties": {
+                "Code": {
+                    "type": "string"
+                },
+                "ReasonText": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.ReferenceData.Station": {
+            "type": "object",
+            "properties": {
+                "SeqNo": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "Code": {
+                    "type": "string"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "IsKioskAvailable": {
+                    "type": "boolean"
+                },
+                "KioskLocation": {
+                    "type": "string"
+                },
+                "KioskDescription": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.ReferenceData.SmartStationsResponse": {
+            "type": "object",
+            "properties": {
+                "OperatorIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "SmartStations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ReferenceData.TocSmartStation"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.ReferenceData.TocSmartStation": {
+            "type": "object",
+            "properties": {
+                "Code": {
+                    "type": "string"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Nlc": {
+                    "type": "string"
+                },
+                "OperatorId": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.ReferenceData.Country": {
+            "type": "object",
+            "properties": {
+                "Code": {
+                    "type": "string"
+                },
+                "Name": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.ReferenceData.ReferenceDataHash": {
+            "type": "object",
+            "properties": {
+                "Stations": {
+                    "type": "string"
+                },
+                "Countries": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Registration.CustomerRegistrationRequest": {
+            "type": "object",
+            "properties": {
+                "BillingAddress": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.CommonTypes.Address"
+                },
+                "HasOptInPromotions": {
+                    "type": "boolean"
+                },
+                "Lastname": {
+                    "type": "string"
+                },
+                "Firstname": {
+                    "type": "string"
+                },
+                "Password": {
+                    "type": "string"
+                },
+                "EmailAddress": {
+                    "type": "string"
+                },
+                "DaytimePhoneNumber": {
+                    "type": "string"
+                },
+                "Title": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Payments.SavedPaymentCardsResponse": {
+            "type": "object",
+            "properties": {
+                "Cards": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Payments.SavedPaymentCard"
+                    }
+                },
+                "HasErrors": {
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "WsgErrors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ErrorResponse"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Payments.SavedPaymentCard": {
+            "type": "object",
+            "properties": {
+                "Alias": {
+                    "type": "string"
+                },
+                "Type": {
+                    "type": "string"
+                },
+                "IsDefault": {
+                    "type": "boolean"
+                },
+                "ExpiryMonth": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "ExpiryYear": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "CardholderName": {
+                    "type": "string"
+                },
+                "PaymentCardNumber": {
+                    "type": "string"
+                },
+                "Warning": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Search.JourneyPlan": {
+            "type": "object",
+            "properties": {
+                "OutboundJournies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.Journey"
+                    }
+                },
+                "ReturnJournies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.Journey"
+                    }
+                },
+                "CurrentSearchUrl": {
+                    "type": "string"
+                },
+                "EarlierSingles": {
+                    "type": "string"
+                },
+                "OutboundEarlierUrl": {
+                    "type": "string"
+                },
+                "OutboundLaterUrl": {
+                    "type": "string"
+                },
+                "InboundEarlierUrl": {
+                    "type": "string"
+                },
+                "InboundLaterUrl": {
+                    "type": "string"
+                },
+                "DeliveryOption": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.DeliveryOption"
+                    }
+                },
+                "RelativeUrls": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.UrlInfo"
+                },
+                "HasErrors": {
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "WsgErrors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ErrorResponse"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Search.Journey": {
+            "type": "object",
+            "properties": {
+                "JourneyInDoubt": {
+                    "type": "boolean"
+                },
+                "OriginName": {
+                    "type": "string"
+                },
+                "DestinationName": {
+                    "type": "string"
+                },
+                "JourneyId": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "DepartureDateTime": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "ArrivalDateTime": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "DepartureTime": {
+                    "type": "string"
+                },
+                "ArrivalTime": {
+                    "type": "string"
+                },
+                "Duration": {
+                    "type": "string"
+                },
+                "Date": {
+                    "type": "string"
+                },
+                "KioskPrinterAvailable": {
+                    "type": "boolean"
+                },
+                "IsReservable": {
+                    "type": "boolean"
+                },
+                "Legs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.CommonTypes.Leg"
+                    }
+                },
+                "Tickets": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.Ticket"
+                    }
+                },
+                "DeptDate": {
+                    "type": "string"
+                },
+                "ChangeDetails": {
+                    "format": "int32",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "IsJourneyCancelled": {
+                    "type": "boolean"
+                },
+                "RunningTimeInfo": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.RunningTimeInfo"
+                },
+                "OriginPlatform": {
+                    "type": "string"
+                },
+                "Disruptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.Disruption"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Search.DeliveryOption": {
+            "type": "object",
+            "properties": {
+                "DeliveryOptionType": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Search.UrlInfo": {
+            "type": "object",
+            "properties": {
+                "CurrentSearchUrl": {
+                    "type": "string"
+                },
+                "OutboundEarlierUrl": {
+                    "type": "string"
+                },
+                "OutboundLaterUrl": {
+                    "type": "string"
+                },
+                "InboundEarlierUrl": {
+                    "type": "string"
+                },
+                "InboundLaterUrl": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Search.Ticket": {
+            "type": "object",
+            "properties": {
+                "Id": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "FareClass": {
+                    "type": "string"
+                },
+                "IsStandardTicket": {
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "TicketType": {
+                    "type": "string"
+                },
+                "RouteCode": {
+                    "type": "string"
+                },
+                "FareOriginNlc": {
+                    "type": "string"
+                },
+                "FareDestinationNlc": {
+                    "type": "string"
+                },
+                "Journey": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.Journey"
+                },
+                "Origin": {
+                    "type": "string"
+                },
+                "Destination": {
+                    "type": "string"
+                },
+                "XLond": {
+                    "type": "boolean"
+                },
+                "Promo": {
+                    "type": "string"
+                },
+                "Total": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "Fare": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "NonPromoFare": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "Type": {
+                    "type": "string"
+                },
+                "FareSrc": {
+                    "type": "string"
+                },
+                "RteRest": {
+                    "type": "string"
+                },
+                "RteRestDesc": {
+                    "type": "string"
+                },
+                "SeatAvCode": {
+                    "type": "string"
+                },
+                "Adults": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.AdultResponse"
+                },
+                "Children": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.ChildResponse"
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "TicketCost": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "Railcards": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Search.Railcard"
+                    }
+                },
+                "NameFareRteRest": {
+                    "type": "string"
+                },
+                "DeliveryOptions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ReservationRequired": {
+                    "type": "boolean"
+                },
+                "SeatsLeft": {
+                    "format": "int32",
+                    "type": "integer"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Search.RunningTimeInfo": {
+            "type": "object",
+            "properties": {
+                "DepartureInfo": {
+                    "type": "string"
+                },
+                "ArrivalInfo": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Search.Disruption": {
+            "type": "object",
+            "properties": {
+                "Message": {
+                    "type": "string"
+                },
+                "Stations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Category": {
+                    "type": "string"
+                },
+                "Severity": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Search.AdultResponse": {
+            "type": "object",
+            "properties": {
+                "Fare": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "NonPromoFare": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "Number": {
+                    "format": "int32",
+                    "type": "integer"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Search.ChildResponse": {
+            "type": "object",
+            "properties": {
+                "Fare": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "NonPromoFare": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "Number": {
+                    "format": "int32",
+                    "type": "integer"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Search.Railcard": {
+            "type": "object",
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "Count": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "AdultsDiscountCount": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "ChildrenDiscountCount": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "AdultDiscountFare": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "ChildrenDiscountFare": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "AdultDiscountNonPromoFare": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "ChildrenDiscountNonPromoFare": {
+                    "format": "int32",
+                    "type": "integer"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Seasons.DeliveryOptionsRequest": {
+            "type": "object",
+            "properties": {
+                "SelectedFare": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Seasons.SelectedFare"
+                },
+                "CorpReference": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Seasons.SelectedFare": {
+            "type": "object",
+            "properties": {
+                "DeliveryTypes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "TicketType": {
+                    "type": "string"
+                },
+                "TypeRestriction": {
+                    "type": "string"
+                },
+                "OriginCode": {
+                    "type": "string"
+                },
+                "DestinationCode": {
+                    "type": "string"
+                },
+                "Adult": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "Child": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "CrossLondonIndicator": {
+                    "type": "string"
+                },
+                "FareSetter": {
+                    "type": "string"
+                },
+                "AdultFare": {
+                    "type": "string"
+                },
+                "ChildFare": {
+                    "type": "string"
+                },
+                "RouteCode": {
+                    "type": "string"
+                },
+                "PeriodType": {
+                    "type": "string"
+                },
+                "Cost": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "StartDate": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "EndDate": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "PromoCode": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.DeliveryOptionsResponse": {
+            "type": "object",
+            "properties": {
+                "FulfilmentDetails": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.SeasonDeliveryOptionsResponse"
+                },
+                "BillingDetails": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.BillingDetails"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.SeasonDeliveryOptionsResponse": {
+            "type": "object",
+            "properties": {
+                "Deliveryoptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/System.Collections.Generic.KeyValuePair[System.String,System.String]"
+                    }
+                },
+                "SmartCardDetails": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.SmartCardDetails"
+                },
+                "Error": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Error"
+                },
+                "PhotoCardNumber": {
+                    "type": "string"
+                },
+                "TransactionId": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.BillingDetails": {
+            "type": "object",
+            "properties": {
+                "Customer": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.Customer"
+                },
+                "PaymentCards": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.PaymentCard"
+                    }
+                }
+            }
+        },
+        "System.Collections.Generic.KeyValuePair[System.String,System.String]": {
+            "type": "object",
+            "properties": {
+                "Key": {
+                    "type": "string",
+                    "readOnly": true
+                },
+                "Value": {
+                    "type": "string",
+                    "readOnly": true
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.SmartCardDetails": {
+            "type": "object",
+            "properties": {
+                "Smartcards": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PrintYourOwn.Contracts.Smartcard.ISmartcard"
+                    }
+                },
+                "CollectionLocations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.CollectionLocations"
+                    }
+                },
+                "FulfilmentDays": {
+                    "format": "int32",
+                    "type": "integer"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.Error": {
+            "type": "object",
+            "properties": {
+                "Code": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "Description": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.Customer": {
+            "type": "object",
+            "properties": {
+                "Title": {
+                    "type": "string"
+                },
+                "SurName": {
+                    "type": "string"
+                },
+                "ForeName": {
+                    "type": "string"
+                },
+                "Address": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.Address"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.PaymentCard": {
+            "type": "object",
+            "properties": {
+                "Type": {
+                    "type": "string"
+                },
+                "Description": {
+                    "type": "string"
+                }
+            }
+        },
+        "PrintYourOwn.Contracts.Smartcard.ISmartcard": {
+            "type": "object",
+            "properties": {
+                "Id": {
+                    "format": "uuid",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "Isrn": {
+                    "type": "string",
+                    "readOnly": true
+                },
+                "Alias": {
+                    "type": "string",
+                    "readOnly": true
+                },
+                "NameOnCard": {
+                    "type": "string"
+                },
+                "IsDefault": {
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "Status": {
+                    "format": "int32",
+                    "enum": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4
+                    ],
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "Title": {
+                    "type": "string"
+                },
+                "Surname": {
+                    "type": "string"
+                },
+                "OtherNames": {
+                    "type": "string"
+                },
+                "CompanyName": {
+                    "type": "string"
+                },
+                "Address": {
+                    "type": "string"
+                },
+                "Postcode": {
+                    "type": "string"
+                },
+                "DateOfBirth": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "Email": {
+                    "type": "string"
+                },
+                "DaytimePhoneNumber": {
+                    "type": "string"
+                },
+                "ManagedGroupId": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "OriginatingTransactionReference": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.CollectionLocations": {
+            "type": "object",
+            "properties": {
+                "StationCode": {
+                    "type": "string"
+                },
+                "ThreeCharStationCode": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.DeliveryOptions.Address": {
+            "type": "object",
+            "properties": {
+                "Line1": {
+                    "type": "string"
+                },
+                "Line2": {
+                    "type": "string"
+                },
+                "Line3": {
+                    "type": "string"
+                },
+                "Line4": {
+                    "type": "string"
+                },
+                "Line5": {
+                    "type": "string"
+                },
+                "PostCode": {
+                    "type": "string"
+                },
+                "CountryCode": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.Search.JourneyResponse": {
+            "type": "object",
+            "properties": {
+                "JourneyDetails": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Seasons.JourneyRequest"
+                },
+                "Weekly": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.SeasonFare"
+                },
+                "Monthly": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.SeasonFare"
+                },
+                "Annual": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.SeasonFare"
+                },
+                "OddPeriod": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.OddSeasonFare"
+                },
+                "OriginStationName": {
+                    "type": "string"
+                },
+                "DestinationStationName": {
+                    "type": "string"
+                },
+                "Errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.ContractError"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Seasons.JourneyRequest": {
+            "type": "object",
+            "properties": {
+                "Origin": {
+                    "type": "string"
+                },
+                "Destination": {
+                    "type": "string"
+                },
+                "StartDate": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "ReturnDate": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "Travellers": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Seasons.Travellers"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.Search.SeasonFare": {
+            "type": "object",
+            "properties": {
+                "StartDate": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "EndDate": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "Fares": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.Fare"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.Search.OddSeasonFare": {
+            "type": "object",
+            "properties": {
+                "Months": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "Days": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "StartDate": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "EndDate": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "Fares": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.Fare"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.Search.ContractError": {
+            "type": "object",
+            "properties": {
+                "Code": {
+                    "type": "string"
+                },
+                "Message": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Seasons.Travellers": {
+            "type": "object",
+            "properties": {
+                "PromoCode": {
+                    "type": "string"
+                },
+                "Adult": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Seasons.Traveler"
+                },
+                "Child": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Seasons.Child"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.Search.Fare": {
+            "type": "object",
+            "properties": {
+                "Ticket": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.Ticket"
+                },
+                "Route": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.CodeDescription"
+                },
+                "Cost": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.Money"
+                },
+                "DeliveryOptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.DeliveryOption"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Seasons.Traveler": {
+            "type": "object",
+            "properties": {
+                "Quantity": {
+                    "format": "int32",
+                    "type": "integer"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Seasons.Child": {
+            "type": "object",
+            "properties": {
+                "DateOfBirth": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "Quantity": {
+                    "format": "int32",
+                    "type": "integer"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.Search.Ticket": {
+            "type": "object",
+            "properties": {
+                "Type": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.CodeDescription"
+                },
+                "Origin": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.CodeDescription"
+                },
+                "Destination": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.CodeDescription"
+                },
+                "Adult": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "Child": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "TypeRestriction": {
+                    "type": "string"
+                },
+                "CroosLondonIndicator": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.Seasons.Search.CodeDescription"
+                },
+                "FareSetter": {
+                    "type": "string"
+                },
+                "AdultFare": {
+                    "type": "string"
+                },
+                "ChildFare": {
+                    "type": "string"
+                },
+                "PeriodType": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.Search.CodeDescription": {
+            "type": "object",
+            "properties": {
+                "Code": {
+                    "type": "string"
+                },
+                "Description": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.Search.Money": {
+            "type": "object",
+            "properties": {
+                "Amount": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "Currency": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.Seasons.Search.DeliveryOption": {
+            "type": "object",
+            "properties": {
+                "Type": {
+                    "type": "string"
+                },
+                "Description": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.SmartCard.SmartCardResponse": {
+            "type": "object",
+            "properties": {
+                "SmartCards": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.SmartCard.Smartcard"
+                    }
+                },
+                "ManagedGroupId": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "CustomerId": {
+                    "format": "int64",
+                    "type": "integer"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.SmartCard.Smartcard": {
+            "type": "object",
+            "properties": {
+                "Id": {
+                    "type": "string"
+                },
+                "Isrn": {
+                    "type": "string"
+                },
+                "Alias": {
+                    "type": "string"
+                },
+                "IsDefault": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.SmartCards.SmartCardRegistrationRequest": {
+            "required": [
+                "Isrn"
+            ],
+            "type": "object",
+            "properties": {
+                "Isrn": {
+                    "type": "string"
+                },
+                "Alias": {
+                    "type": "string"
+                },
+                "IsDefault": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.SmartCard.SmartCardRegistrationResponse": {
+            "type": "object",
+            "properties": {
+                "Message": {
+                    "type": "string"
+                },
+                "SmartCardId": {
+                    "format": "uuid",
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.TicketType.TicketTypeRequest": {
+            "type": "object",
+            "properties": {
+                "Type": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.TicketType.TicketTypeResponse": {
+            "type": "object",
+            "properties": {
+                "TicketTypeDetails": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.TicketType.TicketTypeDetails"
+                },
+                "HasErrors": {
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "WsgErrors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ErrorResponse"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.TicketType.TicketTypeDetails": {
+            "type": "object",
+            "properties": {
+                "Code": {
+                    "type": "string"
+                },
+                "ShortDescription": {
+                    "type": "string"
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "Terms": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.TicketType.Term"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.TicketType.Term": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.TransactionHistory.TransactionHistoryResponse": {
+            "type": "object",
+            "properties": {
+                "Transactions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.TransactionHistory.Transaction"
+                    }
+                },
+                "HasErrors": {
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "WsgErrors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.ErrorResponse"
+                    }
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.TransactionHistory.Transaction": {
+            "type": "object",
+            "properties": {
+                "booking": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.Responses.TransactionHistory.Booking"
+                    }
+                },
+                "PriceBreakdown": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.TransactionHistory.PriceBreakdown"
+                },
+                "TransactionDate": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "TransactionId": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.TransactionHistory.Booking": {
+            "type": "object",
+            "properties": {
+                "BookingId": {
+                    "type": "string"
+                },
+                "OriginLocation": {
+                    "type": "string"
+                },
+                "TicketTypeCode": {
+                    "type": "string"
+                },
+                "DestinationLocation": {
+                    "type": "string"
+                },
+                "OutwardDepart": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "ReturnDepart": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "OutwardArrive": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "ReturnArrive": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "OutwardDuration": {
+                    "type": "string"
+                },
+                "ReturnDuration": {
+                    "type": "string"
+                },
+                "BookingStatus": {
+                    "type": "string"
+                },
+                "DeliveryMethod": {
+                    "$ref": "#/definitions/FastTrackApi.Contracts.Responses.TransactionHistory.DeliveryMethod"
+                },
+                "OutwardLeg": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.CommonTypes.Leg"
+                    }
+                },
+                "ReturnLeg": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FastTrackApi.Contracts.CommonTypes.Leg"
+                    }
+                },
+                "LinkedBookingId": {
+                    "type": "string"
+                },
+                "JourneyType": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.TransactionHistory.PriceBreakdown": {
+            "type": "object",
+            "properties": {
+                "TotalPrice": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "TicketCost": {
+                    "type": "string"
+                },
+                "TotalAddOnCost": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Responses.TransactionHistory.DeliveryMethod": {
+            "type": "object",
+            "properties": {
+                "Item": {
+                    "type": "object"
+                },
+                "Type": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.CardPayment": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/PaymentMethodBase"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "PaymentCardDetails": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.Payments.Types.PaymentCardDetails"
+                        },
+                        "BillingAddress": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.CommonTypes.Address"
+                        }
+                    }
+                }
+            ],
+            "properties": {
+
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.Types.PaymentCardDetails": {
+            "required": [
+                "CardType",
+                "CardNum",
+                "ExpiryMonth",
+                "ExpiryYear",
+                "CardholderName"
+            ],
+            "type": "object",
+            "properties": {
+                "CardType": {
+                    "maxLength": 50,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "CardNum": {
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "ExpiryMonth": {
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "type": "string"
+                },
+                "ExpiryYear": {
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "type": "string"
+                },
+                "CV2": {
+                    "maxLength": 4,
+                    "minLength": 3,
+                    "pattern": "[0-9]*",
+                    "type": "string"
+                },
+                "CardholderName": {
+                    "maxLength": 75,
+                    "minLength": 1,
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.NewCardPayment": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/PaymentMethodBase"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "PaymentCardAndAliasDetails": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.Payments.Types.PaymentCardAndAliasDetails"
+                        },
+                        "BillingAddressAndAlias": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.Payments.Types.AddressAndAlias"
+                        }
+                    }
+                }
+            ],
+            "properties": {
+
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.Types.PaymentCardAndAliasDetails": {
+            "required": [
+                "Alias",
+                "CardType",
+                "CardNum",
+                "ExpiryMonth",
+                "ExpiryYear",
+                "CardholderName"
+            ],
+            "type": "object",
+            "properties": {
+                "Alias": {
+                    "type": "string"
+                },
+                "IsDefault": {
+                    "type": "boolean"
+                },
+                "CardType": {
+                    "maxLength": 50,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "CardNum": {
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "ExpiryMonth": {
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "type": "string"
+                },
+                "ExpiryYear": {
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "type": "string"
+                },
+                "CV2": {
+                    "maxLength": 4,
+                    "minLength": 3,
+                    "pattern": "[0-9]*",
+                    "type": "string"
+                },
+                "CardholderName": {
+                    "maxLength": 75,
+                    "minLength": 1,
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.Types.AddressAndAlias": {
+            "required": [
+                "Alias",
+                "Line1",
+                "Postcode",
+                "Country"
+            ],
+            "type": "object",
+            "properties": {
+                "Alias": {
+                    "type": "string"
+                },
+                "Line1": {
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "Line2": {
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "type": "string"
+                },
+                "Line3": {
+                    "maxLength": 30,
+                    "minLength": 0,
+                    "type": "string"
+                },
+                "Line4": {
+                    "maxLength": 30,
+                    "minLength": 0,
+                    "type": "string"
+                },
+                "Line5": {
+                    "maxLength": 30,
+                    "minLength": 0,
+                    "type": "string"
+                },
+                "Postcode": {
+                    "maxLength": 10,
+                    "minLength": 3,
+                    "type": "string"
+                },
+                "Country": {
+                    "maxLength": 2,
+                    "minLength": 1,
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.PayPalPayment": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/PaymentMethodBase"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "PayPalDetails": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.Payments.Types.PayPalDetails"
+                        }
+                    }
+                }
+            ],
+            "properties": {
+
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.Types.PayPalDetails": {
+            "type": "object",
+            "properties": {
+                "Nonce": {
+                    "type": "string"
+                },
+                "Email": {
+                    "type": "string"
+                }
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.SavedCardPayment": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/PaymentMethodBase"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "SavedCardDetails": {
+                            "$ref": "#/definitions/FastTrackApi.Contracts.Requests.Booking.Payments.Types.SavedCardDetails"
+                        }
+                    }
+                }
+            ],
+            "properties": {
+
+            }
+        },
+        "FastTrackApi.Contracts.Requests.Booking.Payments.Types.SavedCardDetails": {
+            "type": "object",
+            "properties": {
+                "CardAlias": {
+                    "type": "string"
+                },
+                "CV2": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
