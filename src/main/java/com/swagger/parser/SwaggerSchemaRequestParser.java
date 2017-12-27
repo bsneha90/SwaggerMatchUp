@@ -45,11 +45,16 @@ public class SwaggerSchemaRequestParser {
             swaggerRequestSchema.setErrorMessage(Constants.INCORRECT_PATH);
             return swaggerRequestSchema;
         }
+
         Operation operation = path.getOperationMap().get(httpMethod);
         if(operation == null){
             swaggerRequestSchema.setErrorMessage(Constants.INCORRECT_HTTP_MTHHOD);
             return swaggerRequestSchema;
         }
+
+        List<String> consumes = operation.getConsumes();
+        swaggerRequestSchema.setConsumes(consumes);
+
         List<Parameter> operationParameters = operation.getParameters();
 
         operationParameters.forEach(parameter -> {

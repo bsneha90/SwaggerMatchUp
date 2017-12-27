@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.swagger.parser.*;
 import io.swagger.models.HttpMethod;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by bsneha on 27/07/17.
@@ -49,6 +46,8 @@ public class SwaggerMatchRequest {
 
         swaggerSchemaParser.initializeParser(localSchemaPath);
         SwaggerRequestSchema localRequestSchema = swaggerSchemaParser.parseRequest(queryPath, httpMethod);
+
+       
         Reason.setQueryMethodPath(String.format("%s%s", httpMethod, queryPath));
         String errorMessage = providerRequestSchema.getErrorMessage();
         List<String> reasonForNotMatching;
@@ -69,11 +68,35 @@ public class SwaggerMatchRequest {
             return matchResult;
         }
         reasonForNotMatching = new ArrayList<String>();
+        matchConsumes(providerRequestSchema,localRequestSchema,reasonForNotMatching);
         matchParameters(providerRequestSchema, localRequestSchema, reasonForNotMatching);
 
         matchResult.setIsMatching(!(reasonForNotMatching.size() > 0));
         matchResult.setReasonForNotMatching(reasonForNotMatching);
         return matchResult;
+    }
+
+    private static void matchConsumes(SwaggerRequestSchema providerRequestSchema, SwaggerRequestSchema localRequestSchema, List<String> reasonForNotMatching) {
+        List<String> providerConsumes = providerRequestSchema.getConsumes();
+
+        List<String> localConsumes = localRequestSchema.getConsumes();
+
+        Boolean hasConsumesMismatch = false;
+        if (providerConsumes != null && localConsumes != null) {
+            for (String localConsume : localConsumes
+                    ) {
+
+                if (!providerConsumes.remove(localConsume)) {
+                    hasConsumesMismatch = true;
+                    break;
+                }
+            }
+            if (providerConsumes.size() > 0)
+                hasConsumesMismatch = true;
+
+        } else if ((providerConsumes != null && localConsumes == null) || (localConsumes != null && providerConsumes == null))
+            hasConsumesMismatch = true;
+        if (hasConsumesMismatch) reasonForNotMatching.add(Reason.getConsumeMismatch());
     }
 
     private static void matchParameters(SwaggerRequestSchema providerRequestSchema, SwaggerRequestSchema localRequestSchema, List<String> reasonForNotMatching) {

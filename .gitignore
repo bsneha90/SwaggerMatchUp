@@ -3,4 +3,8 @@ RecursiveSwaggerSchemaParser.iml
 .gradle/*
 out/*
 build/*
+**/.DS_Store
+SwaggerMatchUp.iml
+**/*.iml
+
 
