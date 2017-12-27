@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -205,5 +206,14 @@ public class SwaggerSchemaRequestParserTest {
         SwaggerRequestSchema parsedRequest = swaggerSchemaParser.parseRequest("/user/createWithList",HttpMethod.GET);
         Assert.assertEquals(parsedRequest.getErrorMessage(),Constants.INCORRECT_HTTP_MTHHOD);
 
+    }
+
+    @Test
+    public void shouldReturnTheConsumeValueForGivenPath(){
+        SwaggerRequestSchema parsedRequsest = swaggerSchemaParser.parseRequest("/pet",HttpMethod.POST);
+        List<String> consumes = parsedRequsest.getConsumes();
+        Assert.assertEquals(consumes.size(),2);
+        Assert.assertEquals(consumes.get(0), "application/json");
+        Assert.assertEquals(consumes.get(1),  "application/xml");
     }
 }

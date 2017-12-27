@@ -19,6 +19,10 @@ public class Reason {
     private static final String FILED_VALUE_NOT_MATCHING ="%s schema ref %s contains field %s, but has value mismatch. actual: %s expected: %s." ;
     private static final String ADDITIONAL_REQUIRED_PARAMTER ="%s requires an additonal parameter %s in %s" ;
 
+
+
+    private static final String CONSUME_MISMATCH= "The accept header mime-type do not match.";
+
     public static void setQueryMethodPath(String queryMethodPath) {
         Reason.queryMethodPath = queryMethodPath;
     }
@@ -73,5 +77,8 @@ public class Reason {
 
     public static String getAnAdditionalRequiredParameter(String name, String parameterIn) {
         return String.format(ADDITIONAL_REQUIRED_PARAMTER, queryMethodPath,name,parameterIn);
+    }
+    public static String getConsumeMismatch() {
+        return CONSUME_MISMATCH;
     }
 }
